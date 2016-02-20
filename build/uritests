@@ -1,0 +1,11 @@
+http://localhost:8080/interview?id=55ecbfb81bbb631b19e01577
+
+curl --header "api-version: 1.0" http://localhost:8080/interview?id=55f39966f6223f563ba713d1
+
+
+curl -i \
+    --header "api-version: 1.0" \
+    -H "Accept: application/json" \
+    -H "X-HTTP-Method-Override: PUT" \
+    -X POST -d '{"candidate":"Candidate Name","comments":[{"content":"db Content","interviewer":"interviewer 0","interviewerId":"0"},{"content":"db Content","interviewer":"interviewer 1","interviewerId":"1"},{"content":"db Content","interviewer":"interviewer 2","interviewerId":"2"}],"complete":false}' \
+    http://localhost:8080/interview

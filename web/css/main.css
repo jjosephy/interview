@@ -1,0 +1,207 @@
+body {
+    background-color: white;
+    margin: 0;
+    height: 100%;
+}
+
+#header {
+    background-color: #16162B;
+    width: 100% - 35px;
+    height: 35px;
+    padding-left: 15px;
+    padding-top: 17px;
+    color: white;
+    position: relative;
+}
+
+#content {
+    height: calc(100% - 92px);
+    height: -webkit-calc(100% - 92px);
+    height: -moz-calc(100% - 92px);
+    background-color: white;
+    width: calc(100% - 5px);
+    position: relative;
+    font-size: 1.6em;
+    padding-top: 5px;
+    padding-left: 5px;
+    overflow-y: scroll;
+}
+
+#footer {
+    padding-top: 10px;
+    padding-left: 10px;
+    background-color: #16162B;
+    width: 100% - 35px;
+    height: 25px;
+    color: white;
+    position: relative;
+}
+
+.menu_item {
+    color: white;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    width: 70px;
+}
+
+.commentPanel {
+    margin-top: 10px;
+}
+
+.dialogHeader {
+    position: relative;
+    width: 100%;
+    background-color: #555555;
+    height: 30px;
+    color: white;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.dialogBody {
+    height: 510px;
+    background-color: transparent;
+    position: relative;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.dialogButton {
+    margin-right: 20px;
+    margin-top: 2px;
+    width: 75px;
+}
+
+.dialogFooter {
+    position: relative;
+    width: 100%;
+    background-color: transparent;
+    height: 40px;
+    color: white;
+    text-align: right;
+    border-top: 1px solid black;
+}
+
+.dialogLabel {
+    display: block;
+    padding-top: 10px;
+}
+
+.parentDialog {
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+    height: 100%;
+    width: 100%;
+    top: 0px;
+}
+
+.newDialog {
+    position: relative;
+    background-color: white;
+    border: 1px solid black;
+    width: 800px;
+    height: 600px;
+    left: 50%;
+    top: 50%;
+    margin-top: -300px;
+    margin-left: -400px;
+}
+
+.textBox {
+    width: 300px;
+}
+
+.nInput {
+    width: 350px;
+}
+
+.interviewers {
+    margin-top: 30px;
+    width: 97%;
+    border-bottom: 2px solid black;
+}
+
+.lInterview {
+    display: inline-block;
+    width: 95%;
+}
+
+.txt {
+    width: 99%;
+    max-width: 99%;
+    height: 200px;
+}
+
+.iText {
+    width: 765px;
+}
+
+.editText {
+    width: 300;
+}
+
+.addlabel {
+    margin-top: 15px;
+}
+
+.select {
+    margin-top: 5px;
+}
+
+.cpLabel {
+    font-size: .8em;
+}
+
+select {
+    width: 200px;
+    border: 1px solid #cccccc;
+    height: 25px;
+    background-color: white;
+}
+
+.loading {
+    width:50%;
+    height:50%;
+    position:absolute;
+    left:55%;
+    top:30%;
+    margin:-100px 0 0 -150px;
+}
+
+.login {
+    width:50%;
+    height:50%;
+    position:absolute;
+    left:55%;
+    top:100px;
+    margin:-100px 0 0 -150px;
+}
+
+.login .label {
+    margin-top: 20px;
+    font-size: .7em;
+}
+
+.login input {
+    width: 200px;
+    font-size: .6em;
+}
+
+.login .button {
+    margin-top: 20px;
+}
+
+.buttonRight {
+    background-color: #cccccc;
+    color: #333333;
+    border: 1px solid black;
+    height: 25px;
+    margin-left: 5px;
+}
+
+.editButton {
+    width: 75px;
+    margin-top: 7px;
+    margin-right: 9px;
+}

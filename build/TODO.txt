@@ -1,0 +1,3 @@
+- Find out a better way to stucture .go files for build.
+- Find a better way to structure UI components rather than in a single file
+- Version Errors in httperror package

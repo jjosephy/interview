@@ -1,0 +1,8 @@
+
+use interview
+
+db.interviews.insert({"candidate":"Candidate Name","comments":[{"content":"db Content","interviewer":"interviewer 0","interviewerId":"0"},{"content":"db Content","interviewer":"interviewer 1","interviewerId":"1"},{"content":"db Content","interviewer":"interviewer 2","interviewerId":"2"}],"complete":false})
+
+
+Query
+db.interviews.find({ _id: ObjectId("55ecbfb81bbb631b19e01577") })

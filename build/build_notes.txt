@@ -1,0 +1,43 @@
+gvm use go1.4 --default
+gdb -tui interview
+source /home/jjosephy/.gvm/gos/go1.4/src/runtime/runtime-gdb.py
+ go build -gcflags "-N -l" main.go
+ go get github.com/julienschmidt/httprouter
+
+Set GOPATH to the path of where you are doing go work (e.g. ~/Source/go)
+RUN
+ $GOPATH/bin/interview
+
+BUILD
+go build interview
+go install -gcflags "-N -l" interview (DEBUG)
+
+export GOPATH=$HOME/work
+
+GET GO
+https://golang.org/doc/install#install
+
+tar -C /usr/local -xzf <version>
+
+Add /usr/local/go/bin to the PATH environment variable. You can do this by adding this line to your /etc/profile (for a system-wide installation) or $HOME/.profile:
+
+export PATH=$PATH:/usr/local/go/bin
+
+Debugging:
+
+1. need to install gvm
+2. need to set go path (GOPATH) and default (gvm use go1.4 --default)
+3. build with debug flags (go build -gcflags "-N -l" main.go)
+4. run gdb (gdb -tui interview)
+5. load go debugger runtime (source /home/jjosephy/.gvm/gos/go1.4/src/runtime/runtime-gdb.py)
+6. set breakpoint and run
+
+
+mongodb
+
+mongod --dbpath /home/jjosephy/mongodb/data/db
+
+
+CERTS
+openssl genrsa -out private_key 2048
+openssl req -new -x509 -key private_key -out cert.pem -days 365 -subj "/C=US/ST=Washington/L=Seattle/O=Nord/CN=interview.nordstrom.com"

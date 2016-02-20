@@ -1,0 +1,46 @@
+
+count, _ := q.Count()
+fmt.Printf("count %d \n", count)
+if count > 0 {
+    result := model.InterviewModel{}
+    iter := q.Iter()
+    for iter.Next(&result) {
+        fmt.Printf("Result: Candidate: %v| Complete: %v| NId %v - \n", result.Candidate, result.Complete, result.QueryId)
+
+        cx := len(result.Comments)
+        fmt.Printf("comments %d \n", cx)
+    }
+    if iter.Err() != nil {
+        panic(iter.Err())
+    }
+}
+
+type R struct {
+    ID        bson.ObjectId `bson:"_id,omitempty"`
+    Name      string
+}
+
+
+
+
+s, err := mgo.Dial("mongodb://localhost")
+        if err != nil {
+        fmt.Printf("Can't connect to mongo, go error %v\n", err)
+        os.Exit(1)
+    }
+
+    defer s.Close()
+
+    result := R {}
+    c := s.DB("test").C("docs")
+    err = c.Find(bson.M{"name": "test"}).One(&result)
+
+    if err != nil {
+      fmt.Printf("got an error finding a doc %v\n", err)
+      os.Exit(1)
+    } else {
+        fmt.Printf("all good %v", result)
+    }
+
+    db.seed.update({"increment" : "true"}, {$set: {"val" : "1" }})
+db.seed.update({"increment" : "true"}, {$set: {"val" : "0" }})

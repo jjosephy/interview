@@ -1,0 +1,148 @@
+<html>
+    <head>
+        <title>Interview Panel</title>
+        <link rel="stylesheet" href="/css/main.css" >
+        <script src="/script/react.js"></script>
+        <script src="/script/JSXTransformer.js"></script>
+        <script src="/script/jquery-2.1.4.min.js"></script>
+        <script src="/script/client.js"></script>
+        <script src="/ui/content.js" type="text/jsx"></script>
+        <script src="/ui/panel.js" type="text/jsx"></script>
+        <script src="/ui/forms.js" type="text/jsx"></script>
+        <script src="/ui/login.js" type="text/jsx"></script>
+        <script src="/ui/menuItem.js" type="text/jsx"></script>
+        <script src="/ui/header.js" type="text/jsx"></script>
+        <script src="/ui/dialog.js" type="text/jsx"></script>
+        <script type="text/jsx">
+            function parseCookie() {
+                var i = document.cookie.split(';');
+                if (!i[0]) {
+                    return null;
+                }
+
+                t = i[0].split('=')
+
+                if (t[0] === 'token') {
+                    return t[1];
+                }
+
+                return null;
+            }
+
+            function setCookie() {
+                var t = Client.GetToken(
+                    'w',
+                    'w',
+                    function(data, textStatus, jqXHR) {
+                        t = data;
+                        var ex = new Date();
+                        var date = new Date();
+                        date.setDate(ex.getDate() + 1);
+                        document.cookie = 'token=' + t;
+                        document.cookie = 'Path=/';
+                        document.cookie = 'Expires=' + date;
+                        alertCookie();
+                    },
+                    function (jqXHR, textStatus, errorThrown) {
+                        var res = JSON.parse(jqXHR.responseText);
+                        var msg = "Error Code: " + res.ErrorCode + " Message: " + res.Message;
+                        console.log(msg);
+                        document.getElementById('footer').innerText = msg;
+                    }
+                );
+            }
+
+            function deleteCookie() {
+                document.cookie = 'token=; Path=/; Expires= Expires=Thu, 01 Jan 1970 00:00:01 GMT'
+                alertCookie();
+                renderLogin();
+            }
+
+            function alertCookie() {
+                document.getElementById('footer').innerHTML = ' Cookie ' + document.cookie;
+            }
+
+            function renderAuthencticated() {
+                var c = React.render(
+                    <Content />,
+                    document.getElementById('content')
+                );
+
+                var dialog = React.render(
+                    <Dialog />,
+                    document.getElementById('dialog')
+                );
+
+                var h = React.render(
+                    <Header dialog={dialog} show='true'/>,
+                    document.getElementById('header')
+                );
+            }
+
+            function renderLogin() {
+                var login = React.render(
+                    <Login />,
+                    document.getElementById('content')
+                );
+
+                var h = React.render(
+                    <Header dialog={dialog} show='false'/>,
+                    document.getElementById('header')
+                );
+            }
+
+            $(document).ready(function() {
+                //check authentication
+                var c = parseCookie();
+                if (c === null) {
+                    document.getElementById('footer').innerHTML = 'null cookie';
+                    renderLogin();
+                } else {
+                    document.getElementById('footer').innerHTML = c;
+                    renderAuthencticated();
+                }
+
+                //h.newHandler();
+                /*
+                React.render(
+                    <CommentPanel />,
+                    document.getElementById('content')
+                );
+
+                React.render(
+                    <LoadingPanel />,
+                    document.getElementById('content')
+                );
+                */
+
+            });
+
+            function loadComments() {
+                React.render(
+                    <CommentPanel />,
+                    document.getElementById('content')
+                );
+            }
+        </script>
+    </head>
+    <!--
+    <button onclick="setCookie();">Set</button>
+    <br />
+    <button onclick="deleteCookie();">Delete</button>
+    </br>
+    <button onclick="alertCookie();">Alert</button>
+    </br>
+    -->
+    <div id="txt"></div>
+    <body>
+        <div id="header">
+        </div>
+        <div id="content">
+        </div>
+        <div id="footer">
+            Status
+        </div>
+        <div id="dialog">
+        </div>
+    </body>
+</html>

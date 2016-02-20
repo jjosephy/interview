@@ -1,0 +1,18 @@
+{
+    "candidate": "Candidate Name",
+    "comments": [
+        {
+            "content": "db Content",
+            "interviewer": "interviewer 0"
+        },
+        {
+            "content": "db Content",
+            "interviewer": "interviewer 1"
+        },
+        {
+            "content": "db Content",
+            "interviewer": "interviewer 2"
+        }
+    ],
+    "complete": false
+},
