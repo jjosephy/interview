@@ -3,8 +3,8 @@ package converter
 import (
     "encoding/json"
     "gopkg.in/mgo.v2/bson"
-    "github.com/jjosephy/go/interview/contract/v1"
-    "github.com/jjosephy/go/interview/model"
+    "github.com/jjosephy/interview/contract/v1"
+    "github.com/jjosephy/interview/model"
     "io"
 )
 

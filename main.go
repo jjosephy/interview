@@ -2,9 +2,9 @@ package main
 
 import (
     "fmt"
-    "github.com/jjosephy/go/interview/authentication"
-    "github.com/jjosephy/go/interview/handler"
-    "github.com/jjosephy/go/interview/repository"
+    "github.com/jjosephy/interview/authentication"
+    "github.com/jjosephy/interview/handler"
+    "github.com/jjosephy/interview/repository"
     "io/ioutil"
     "net/http"
 )

@@ -4,7 +4,7 @@ import (
     "errors"
     "gopkg.in/mgo.v2"
     "gopkg.in/mgo.v2/bson"
-    "github.com/jjosephy/go/interview/model"
+    "github.com/jjosephy/interview/model"
     "time"
 )
 
