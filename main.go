@@ -29,7 +29,7 @@ func main() {
 
     mux := http.NewServeMux()
     // TODO: figure out path and a better way to configure
-    mux.Handle("/", http.FileServer(http.Dir("../src/github.com/jjosephy/go/interview/web")))
+    mux.Handle("/", http.FileServer(http.Dir("../src/github.com/jjosephy/interview/web")))
     mux.HandleFunc("/interview", handler.InterviewHandler(&repo))
     mux.HandleFunc("/token", handler.TokenHandler(&p))
     err := http.ListenAndServeTLS(PORT, PUBLIC_KEY, PRIV_KEY, mux)
