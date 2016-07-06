@@ -10,9 +10,22 @@ var (
     defaultKeyFunc    jwt.Keyfunc = func(t *jwt.Token) (interface{}, error) { return jwtTestDefaultKey, nil }
 )
 
+type MyTimeClaims struct {
+    exp int64
+    jwt.StandardClaims
+}
+
+
 func GenerateToken(signingKey []byte) (string, error) {
-    token := jwt.New(jwt.SigningMethodHS256)
-    token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+    claims := MyTimeClaims{
+        time.Now().Add(time.Hour * 24).Unix(),
+        jwt.StandardClaims{
+            ExpiresAt: 15000,
+            Issuer:    "website",
+        },
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     tokenString, ex := token.SignedString(signingKey)
 
     if ex != nil {
