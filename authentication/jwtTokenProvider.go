@@ -6,13 +6,27 @@ import (
 )
 
 var (
-    jwtTestDefaultKey []byte
-    defaultKeyFunc    jwt.Keyfunc = func(t *jwt.Token) (interface{}, error) { return jwtTestDefaultKey, nil }
+    jwtDefaultKey []byte
+    defaultKeyFunc    jwt.Keyfunc = func(t *jwt.Token) (interface{}, error) { return jwtDefaultKey, nil }
 )
 
+type TokenTimeClaims struct {
+    exp int64
+    jwt.StandardClaims
+}
+
 func GenerateToken(signingKey []byte) (string, error) {
-    token := jwt.New(jwt.SigningMethodHS256)
-    token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+    claims := TokenTimeClaims {
+        time.Now().Add(time.Hour * 24).Unix(),
+        jwt.StandardClaims{
+            ExpiresAt: 15000,
+            Issuer:    "nordstrom.net",
+        },
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    //token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
     tokenString, ex := token.SignedString(signingKey)
 
     if ex != nil {
@@ -27,6 +41,7 @@ func ValidateToken(token string, signingKey []byte) (bool, error) {
     var err error
 
     tk, err = jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+        time.Now().Add(time.Hour * 24).Unix()
         return signingKey, nil
     })
 
