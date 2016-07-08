@@ -1,7 +1,5 @@
 FROM golang
 
-
-
 # Copy the local package files to the container's workspace.
 ADD . /go/src/github.com/jjosephy/go/interview
 
@@ -20,7 +18,7 @@ RUN openssl req -new -x509 -key /go/bin/private_key -out /go/bin/cert.pem -days 
 ENTRYPOINT /go/bin/interview
 
 # Document that the service listens on port 8080.
-EXPOSE 8080
+EXPOSE 8443
 
 #FROM busybox
 #ENV foo /bar
