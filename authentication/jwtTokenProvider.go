@@ -26,7 +26,6 @@ func GenerateToken(signingKey []byte) (string, error) {
     }
 
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-    //token.Claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
     tokenString, ex := token.SignedString(signingKey)
 
     if ex != nil {
