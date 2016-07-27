@@ -11,29 +11,34 @@ import (
 )
 
 const (
-	PORT       = ":8443"
-	PRIV_KEY   = "./private_key"
-	PUBLIC_KEY = "./cert.pem"
+	// Port to use for the Service
+	Port = ":8443"
+
+	// PrivateKey is key to use for TLS
+	PrivateKey = "./private_key"
+
+	// PublicKey is key to use for TLS
+	PublicKey = "./cert.pem"
 )
 
-// Main entry point used to set up routes //
+// Main entry point used to set up routes
 func main() {
 	var e error
 	var signingKey []byte
-	if signingKey, e = ioutil.ReadFile(PUBLIC_KEY); e != nil {
+	if signingKey, e = ioutil.ReadFile(PublicKey); e != nil {
 		panic(e)
 	}
 
 	// TODO: figure out injection pattern and config
 	p := authentication.SimpleAuthProvider{SigningKey: signingKey}
-	repo := repository.DBInterviewRepository{Uri: "mongodb://localhost"}
+	repo := repository.DBInterviewRepository{URI: "mongodb://localhost"}
 
 	mux := http.NewServeMux()
 	// TODO: figure out path and a better way to configure
 	mux.Handle("/", http.FileServer(http.Dir("../src/github.com/jjosephy/interview/web")))
 	mux.HandleFunc("/interview", handler.InterviewHandler(&repo))
 	mux.HandleFunc("/token", handler.TokenHandler(&p))
-	err := http.ListenAndServeTLS(PORT, PUBLIC_KEY, PRIV_KEY, mux)
+	err := http.ListenAndServeTLS(Port, PublicKey, PrivateKey, mux)
 	if err != nil {
 		fmt.Printf("main(): %s\n", err)
 	}

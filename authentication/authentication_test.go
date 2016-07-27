@@ -1,7 +1,7 @@
 package authentication
 
 import (
-    "testing"
+	"testing"
 )
 
 var pk = `-----BEGIN CERTIFICATE-----
@@ -41,22 +41,22 @@ func Test_LDAPAuthentication(t *testing.T) {
 
 func Test_SimpleAuthentication(t *testing.T) {
 
-    // TODO: figure out injection pattern and config
-    p := SimpleAuthProvider { SigningKey : []byte(pk) }
+	// TODO: figure out injection pattern and config
+	p := SimpleAuthProvider{SigningKey: []byte(pk)}
 
-    var token string
-    var err error
-    var valid interface{}
+	var token string
+	var err error
+	var valid interface{}
 
-    if token, err = p.AuthenticateUser("user", "pwd"); err == nil {
-        t.Log(token)
-    } else {
-        t.Error("Authentication failed")
-    }
+	if token, err = p.AuthenticateUser("user", "pwd"); err == nil {
+		t.Log(token)
+	} else {
+		t.Error("Authentication failed")
+	}
 
-    if valid, err = p.ValidateToken(token); err != nil || valid == nil {
-        t.Error("Validating the token failed")
-    } else {
-        t.Logf("V %#v", valid)
-    }
+	if valid, err = p.ValidateToken(token); err != nil || valid == nil {
+		t.Error("Validating the token failed")
+	} else {
+		t.Logf("V %#v", valid)
+	}
 }

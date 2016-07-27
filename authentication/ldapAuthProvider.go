@@ -10,10 +10,12 @@ var (
 	ldapServer = "ldaps://nordstrom.net:636/"
 )
 
+// LDAPAuthProvider is the public type for LDAP Auth Provider Interface
 type LDAPAuthProvider struct {
 	SigningKey []byte
 }
 
+// AuthenticateUser authenticates users given a user name and password
 func (p *LDAPAuthProvider) AuthenticateUser(name string, pwd string) (string, error) {
 	ldap, err := openldap.Initialize(ldapServer)
 	if err != nil {
@@ -21,7 +23,7 @@ func (p *LDAPAuthProvider) AuthenticateUser(name string, pwd string) (string, er
 	}
 	ldap.SetOption(openldap.LDAP_OPT_PROTOCOL_VERSION, openldap.LDAP_VERSION3)
 
-	fmt.Sprint(name, "@nordstrom.net")
+	name = fmt.Sprint(name, "@nordstrom.net")
 	err = ldap.Bind(name, pwd)
 	if err != nil {
 		return "", err
@@ -30,6 +32,7 @@ func (p *LDAPAuthProvider) AuthenticateUser(name string, pwd string) (string, er
 	return GenerateToken(p.SigningKey)
 }
 
+// ValidateToken provides the public API for validating tokens
 func (p *LDAPAuthProvider) ValidateToken(token string) (bool, error) {
 	return ValidateToken(token, p.SigningKey)
 }
