@@ -1,0 +1,6 @@
+1. Improve feature to support various types of auth providers
+2. Set up DynamoDB
+3. Access Control and Roles (DBTables)
+4. Configuration System and Env Defs
+5. Responsive UI
+6. UI Improvements
