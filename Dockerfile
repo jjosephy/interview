@@ -1,7 +1,7 @@
 FROM golang
 
 # Copy the local package files to the container's workspace.
-ADD . /go/src/github.com/jjosephy/go/interview
+ADD . $GOPATH/src/github.com/jjosephy/interview
 
 RUN apt-get update
 RUN apt-get install -y libldap2-dev
