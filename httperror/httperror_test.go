@@ -1,7 +1,7 @@
 package httperror
 
 import (
-    "testing"
+	"testing"
 )
 
 func Test_HttpError(t *testing.T) {

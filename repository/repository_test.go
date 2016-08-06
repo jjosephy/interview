@@ -1,9 +1,8 @@
 package repository
 
 import (
-    "testing"
+	"testing"
 )
 
 func Test_Success_CreateErrorModel(t *testing.T) {
-    
 }
