@@ -23,6 +23,7 @@ const (
 
 // Main entry point used to set up routes
 func main() {
+	fmt.Println("Starting Service")
 	var e error
 	var signingKey []byte
 	if signingKey, e = ioutil.ReadFile(PublicKey); e != nil {
@@ -36,7 +37,7 @@ func main() {
 	mux := http.NewServeMux()
 	// TODO: figure out path and a better way to configure
 	mux.Handle("/", http.FileServer(http.Dir("../src/github.com/jjosephy/interview/web")))
-	mux.HandleFunc("/interview", handler.InterviewHandler(&repo))
+	mux.HandleFunc("/interview", handler.InterviewHandler(&repo, &p))
 	mux.HandleFunc("/token", handler.TokenHandler(&p))
 	err := http.ListenAndServeTLS(Port, PublicKey, PrivateKey, mux)
 	if err != nil {

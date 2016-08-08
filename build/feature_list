@@ -1,6 +1,12 @@
+- Auth Token header validation on /interview calls. Add Authorization Header
+- Set Content Type of response from Interview Handler
+
 1. Improve feature to support various types of auth providers
 2. Set up DynamoDB
 3. Access Control and Roles (DBTables)
 4. Configuration System and Env Defs
 5. Responsive UI
 6. UI Improvements
+7. Logging
+8. Repository Injection
+9. Tests

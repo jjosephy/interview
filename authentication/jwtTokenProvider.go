@@ -15,7 +15,7 @@ var (
 func GenerateToken(signingKey []byte) (string, error) {
 
 	claims := jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		ExpiresAt: time.Now().Add(time.Second * 30).Unix(),
 		Issuer:    "nordstrom.net",
 	}
 
