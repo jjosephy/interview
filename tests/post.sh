@@ -1,5 +1,12 @@
+#!/bin/bash
 
-auth=$(curl -s --header "api-version: 1.0" -X POST -d 'uname=user&pwd=password' https://localhost:8443/token)
+auth=$(curl --noproxy localhost, \
+--header "api-version: 1.0" \
+-k \
+-s \
+-X POST \
+-d 'uname=user&pwd=password' \
+https://localhost:8443/token)
 
 curl -i \
 	--noproxy localhost, \

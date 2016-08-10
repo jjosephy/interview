@@ -41,11 +41,26 @@ func (r *MockInterviewRepository) GetInterview(id string, name string) (model.In
 	// Get a model and translate that
 	m = model.InterviewModel{
 		Candidate: "Candidate",
-		Id:        bson.NewObjectId(),
+		ID:        bson.NewObjectId(),
 		Comments:  comments,
 	}
 
 	return m, nil
+}
+
+
+// SimpleAuthProvider used for testing
+type TestAuthProvider struct {
+}
+
+// AuthenticateUser authentication
+func (p *TestAuthProvider) AuthenticateUser(name string, pwd string) (string, error) {
+	return "TOKEN", nil
+}
+
+// ValidateToken validate
+func (p *TestAuthProvider) ValidateToken(token string) (bool, error) {
+	return true, nil
 }
 
 var h http.HandlerFunc
@@ -62,7 +77,7 @@ func ValidateC1(t *testing.T, c contract.InterviewContractV1) {
 }
 
 func TestMain(m *testing.M) {
-	h = InterviewHandler(new(MockInterviewRepository))
+	h = InterviewHandler(new(MockInterviewRepository), new (TestAuthProvider))
 	ts = httptest.NewServer(http.HandlerFunc(h))
 	defer ts.Close()
 	os.Exit(m.Run())
@@ -171,6 +186,7 @@ func validateRequest(
 func Test_BadRequest_UnSupportedVersion_V1(t *testing.T) {
 	headers := map[string]string{
 		"Api-Version": "3.1",
+		"Authorization" : "TOKEN",
 	}
 
 	validateRequest(
@@ -185,6 +201,7 @@ func Test_BadRequest_UnSupportedVersion_V1(t *testing.T) {
 func TestBadRequest_NoQueryParameters_V1(t *testing.T) {
 	headers := map[string]string{
 		"Api-Version": "1.0",
+		"Authorization" : "TOKEN",
 	}
 
 	validateRequest(
@@ -199,6 +216,7 @@ func TestBadRequest_NoQueryParameters_V1(t *testing.T) {
 func TestBadRequest_InvalidVersion_V1(t *testing.T) {
 	headers := map[string]string{
 		"Api-Version": "invalid",
+		"Authorization" : "TOKEN",
 	}
 
 	validateRequest(
@@ -213,6 +231,7 @@ func TestBadRequest_InvalidVersion_V1(t *testing.T) {
 func TestBadRequest_NoVersion_V1(t *testing.T) {
 	headers := map[string]string{
 		"No-Version": "",
+		"Authorization" : "TOKEN",
 	}
 
 	validateRequest(
@@ -227,6 +246,7 @@ func TestBadRequest_NoVersion_V1(t *testing.T) {
 func Test_Success_ValidRequest_V1(t *testing.T) {
 	headers := map[string]string{
 		"Api-Version": "1.0",
+		"Authorization" : "TOKEN",
 	}
 
 	validateRequest(
@@ -240,7 +260,7 @@ func Test_Success_ValidRequest_V1(t *testing.T) {
 
 func Test_Success_PostValidRequest_V1(t *testing.T) {
 	cn := contract.InterviewContractV1{
-		Id:        "Id",
+		ID:        "Id",
 		Candidate: "Candidate",
 		Comments: contract.CommentsV1{
 			contract.CommentContractV1{Content: "Mock Comment", Interviewer: "interviewer 0"},
@@ -262,6 +282,7 @@ func Test_Success_PostValidRequest_V1(t *testing.T) {
 	}
 
 	req.Header.Add("Api-Version", "1.0")
+	req.Header.Add("Authorization", "TOKEN")
 	resp, err := client.Do(req)
 
 	if err != nil {

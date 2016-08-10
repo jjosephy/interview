@@ -1,4 +1,4 @@
-- Auth Token header validation on /interview calls. Add Authorization Header
+
 - Set Content Type of response from Interview Handler
 
 1. Improve feature to support various types of auth providers
