@@ -32,12 +32,12 @@ func main() {
 
 	// TODO: figure out injection pattern and config
 	p := authentication.SimpleAuthProvider{SigningKey: signingKey}
-	repo := repository.DBInterviewRepository{URI: "mongodb://localhost"}
+	repo := repository.New("mongodb://localhost")
 
 	mux := http.NewServeMux()
 	// TODO: figure out path and a better way to configure
 	mux.Handle("/", http.FileServer(http.Dir("../src/github.com/jjosephy/interview/web")))
-	mux.HandleFunc("/interview", handler.InterviewHandler(&repo, &p))
+	mux.HandleFunc("/interview", handler.InterviewHandler(repo, &p))
 	mux.HandleFunc("/token", handler.TokenHandler(&p))
 	err := http.ListenAndServeTLS(Port, PublicKey, PrivateKey, mux)
 	if err != nil {
