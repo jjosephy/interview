@@ -11,6 +11,11 @@ type MemoryInterviewRepository struct {
 }
 
 func (r *MemoryInterviewRepository) SaveInterview(m model.InterviewModel) (mi model.InterviewModel, err error) {
+
+    if r.m == nil {
+
+    }
+
     mi = model.InterviewModel{}
     return mi, nil
 }
