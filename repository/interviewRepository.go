@@ -24,7 +24,7 @@ type DBInterviewRepository struct {
 }
 
 // New creates a new instance of DBInterviewRepository
-func New(uri string) *DBInterviewRepository {
+func NewDBInterviewRepository(uri string) *DBInterviewRepository {
 	os.Setenv("AWS_ACCESS_KEY_ID", "12312312")
 	os.Setenv("AWS_SECRET_ACCESS_KEY", "12312312")
 

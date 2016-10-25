@@ -15,6 +15,13 @@ type LDAPAuthProvider struct {
 	SigningKey []byte
 }
 
+// NewLdapAuthProvider Creates a new Instance of Ldap Auth Provider
+func NewLdapAuthProvider(key []byte) *LDAPAuthProvider{
+	return &LDAPAuthProvider {
+		SigningKey: key,
+	}
+}
+
 // AuthenticateUser authenticates users given a user name and password
 func (p *LDAPAuthProvider) AuthenticateUser(name string, pwd string) (string, error) {
 	ldap, err := openldap.Initialize(ldapServer)

@@ -9,6 +9,13 @@ type SimpleAuthProvider struct {
 	SigningKey []byte
 }
 
+// NewSimpleAuthProvider returns a new instance of SimpleAuthProvider
+func NewSimpleAuthProvider(key []byte) *SimpleAuthProvider {
+	return &SimpleAuthProvider {
+		SigningKey: key,
+	}
+}
+
 // AuthenticateUser authentication
 func (p *SimpleAuthProvider) AuthenticateUser(name string, pwd string) (string, error) {
 
