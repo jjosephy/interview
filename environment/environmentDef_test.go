@@ -2,21 +2,26 @@ package environment
 
 import (
     "testing"
-    "github.com/jjosephy/interview/repository"
 )
 
+const j = `{
+			"authProvider": "SimpleAuthProvider",
+			"port": ":8443",
+			"publicKey" : "./cert.pem",
+			"privateKey" : "./private_key",
+			"repository" : "MemoryRepository",
+			"type" : "debug",
+			"webpath" : "/Users/jjosephy/Source/go/src/github.com/jjosephy/interview/web",
+			}`
+
 func Test_Success_CreateNewEnvironment(t *testing.T) {
-    x := "Debug"
-    p := "Path"
-    r := &repository.MemoryInterviewRepository{}
+	//e := NewEnvironment([]byte(j))
 
-    e := NewEnvironment(p, x, r)
+	/*
+	if e.Port != ":8443" {
+		t.Fatal("Invalid Port")
+	}
 
-    if e.Path != p {
-        t.Fatal("Environment Path not set correctly")
-    }
-
-    if e.Type != x {
-        t.Fatal("Environment Type not set correctly")
-    }
+	t.Logf("%v", e)
+	*/
 }

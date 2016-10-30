@@ -15,9 +15,10 @@ type Environment struct {
 	PublicKey string
 	Repository repository.InterviewRepository
 	Type string
+	WebPath string
 }
 
-func NewEnvironment(config []byte, ) (*Environment) {
+func NewEnvironment(config []byte) (*Environment) {
 
 	var i map[string]interface{}
 	json.Unmarshal(config, &i)
@@ -35,5 +36,6 @@ func NewEnvironment(config []byte, ) (*Environment) {
 		PublicKey: i["publicKey"].(string),
 		Repository: repository.NewRepository(i["repository"].(string)),
 		Type: i["type"].(string),
+		WebPath: i["webpath"].(string),
 	}
 }
