@@ -1,10 +1,6 @@
 package authentication
 
-import (
-
-)
-
-// SimpleAuthProvider used for testing
+// AuthCredential used for testing
 type AuthCredential struct {
 	Token string
 }

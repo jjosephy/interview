@@ -7,17 +7,17 @@ import (
 // SimpleAuthProvider used for testing
 type SimpleAuthProvider struct {
 	SigningKey []byte
-	users map[string]string
+	users      map[string]string
 }
 
 // NewSimpleAuthProvider returns a new instance of SimpleAuthProvider
 func NewSimpleAuthProvider(key []byte) *SimpleAuthProvider {
 	m := make(map[string]string)
-	m["jj"] = "pwd"
+	m["user"] = "password"
 
-	return &SimpleAuthProvider {
+	return &SimpleAuthProvider{
 		SigningKey: key,
-		users: m,
+		users:      m,
 	}
 }
 

@@ -79,7 +79,7 @@ func InterviewHandler(data repository.InterviewRepository, p authentication.Prov
 					httperror.InterviewNotFound(w)
 					return
 				case "HexId":
-					httperror.InvalidInterviewId(w)
+					httperror.InvalidInterviewID(w)
 					return
 				default:
 					httperror.GetInterviewFailed(w, err)
