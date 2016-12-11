@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+// DecodeContractFromBodyV1 decodes a Contract from a Request Body
 func DecodeContractFromBodyV1(r io.ReadCloser) (contract.InterviewContractV1, error) {
 	decoder := json.NewDecoder(r)
 	var c contract.InterviewContractV1

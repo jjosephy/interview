@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/jjosephy/interview/authentication"
 	"github.com/jjosephy/interview/converter"
 	"github.com/jjosephy/interview/httperror"
 	"github.com/jjosephy/interview/model"
@@ -12,10 +13,25 @@ import (
 )
 
 // InterviewHandler is the handler for public Interview API
-func InterviewHandler(data repository.InterviewRepository) http.HandlerFunc {
+func InterviewHandler(data repository.InterviewRepository, p authentication.Provider) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var version float64
-		h := r.Header.Get("api-version")
+
+		// Validate Authorization Header
+		h := r.Header.Get("authorization")
+		if h == "" {
+			httperror.Unauthorized(w)
+			return
+		}
+
+		res, tErr := p.ValidateToken(h)
+		if res == false || tErr != nil {
+			httperror.Unauthorized(w)
+			return
+		}
+
+		// Validate Version Header
+		h = r.Header.Get("api-version")
 		if h == "" {
 			httperror.NoVersionProvided(w)
 			return
@@ -63,7 +79,7 @@ func InterviewHandler(data repository.InterviewRepository) http.HandlerFunc {
 					httperror.InterviewNotFound(w)
 					return
 				case "HexId":
-					httperror.InvalidInterviewId(w)
+					httperror.InvalidInterviewID(w)
 					return
 				default:
 					httperror.GetInterviewFailed(w, err)
