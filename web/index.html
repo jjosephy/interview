@@ -29,29 +29,6 @@
                 return null;
             }
 
-            function setCookie() {
-                var t = Client.GetToken(
-                    'w',
-                    'w',
-                    function(data, textStatus, jqXHR) {
-                        t = data;
-                        var ex = new Date();
-                        var date = new Date();
-                        date.setDate(ex.getDate() + 1);
-                        document.cookie = 'token=' + t;
-                        document.cookie = 'Path=/';
-                        document.cookie = 'Expires=' + date;
-                        alertCookie();
-                    },
-                    function (jqXHR, textStatus, errorThrown) {
-                        var res = JSON.parse(jqXHR.responseText);
-                        var msg = "Error Code: " + res.ErrorCode + " Message: " + res.Message;
-                        console.log(msg);
-                        document.getElementById('footer').innerText = msg;
-                    }
-                );
-            }
-
             function deleteCookie() {
                 document.cookie = 'token=; Path=/; Expires= Expires=Thu, 01 Jan 1970 00:00:01 GMT'
                 alertCookie();

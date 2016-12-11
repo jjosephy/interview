@@ -14,7 +14,7 @@ func IsTrue(t *testing.T, c bool, msg string) {
 func CreateTestContract() InterviewContractV1 {
 	return InterviewContractV1{
 		Candidate: "Candidate Name",
-		Id:        "2",
+		ID:        "2",
 		Comments: CommentsV1{
 			CommentContractV1{Content: "db Content", Interviewer: "interviewer 0"},
 			CommentContractV1{Content: "db Content", Interviewer: "interviewer 1"},
