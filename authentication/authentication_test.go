@@ -28,17 +28,6 @@ An+7GCH1hgB2NmNp26cTKn6sGrz1gkJXxxZMj4ocGjRXf6SZ0lK09NrXGYaodimw
 mkUNuhtVPg==
 -----END CERTIFICATE-----`
 
-/*
-func Test_LDAPAuthentication(t *testing.T) {
-    p := LDAPAuthProvider { SigningKey : []byte(pk) }
-    if token, err := p.AuthenticateUser("user", "pwd"); err != nil {
-      t.Errorf("Faild %v", err)
-    } else {
-        t.Log(token)
-    }
-}
-*/
-
 func Test_SimpleAuthentication(t *testing.T) {
 
 	p := NewAuthenticationProvder("SimpleAuthProvider", []byte(pk))
