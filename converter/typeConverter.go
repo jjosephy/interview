@@ -2,11 +2,13 @@ package converter
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 
 	"github.com/jjosephy/interview/contract/v1"
+	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/jjosephy/interview/util"
 )
 
 // DecodeContractFromBodyV1 decodes a Contract from a Request Body
@@ -35,9 +37,8 @@ func ConvertModelToContractV1(m model.InterviewModel) (c contract.InterviewContr
 		comments[i] = cm
 	}
 
-	// TODO: validate success
 	return contract.InterviewContractV1{
-		ID:        m.ID.Hex(),
+		ID:        m.ID,
 		Candidate: m.Candidate,
 		Comments:  comments,
 	}
@@ -56,10 +57,14 @@ func ConvertContractToModelV1(c contract.InterviewContractV1) (m model.Interview
 		comments[i] = mc
 	}
 
-	// TODO: validate success
-	oid := bson.ObjectId(c.ID)
+	uuid, e := util.InstanceUtil.NewUUID()
+	if e != nil {
+		logger.LogInstance.LogMsg(
+			fmt.Sprintf("Error creating uuid in method typeConverter.ConvertContractToModelV1 %s", e))
+	}
+
 	return model.InterviewModel{
-		ID:        oid,
+		ID:        uuid,
 		Candidate: c.Candidate,
 		Comments:  comments,
 	}

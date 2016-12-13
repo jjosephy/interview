@@ -40,4 +40,6 @@ mongod --dbpath /home/jjosephy/mongodb/data/db
 
 CERTS
 openssl genrsa -out private_key 2048
-openssl req -new -x509 -key private_key -out cert.pem -days 365 -subj "/C=US/ST=Washington/L=Seattle/O=Nord/CN=localhost"
+openssl req -new -x509 -key private_key -out cert.pem -days 365 -subj "/C=US/ST=Washington/L=Seattle/O=Comp/CN=localhost"
+
+sudo netstat -nlp | grep :8443

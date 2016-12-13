@@ -3,22 +3,26 @@ package environment
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 
 	"github.com/jjosephy/interview/authentication"
 	"github.com/jjosephy/interview/repository"
 )
 
+// Environment is the main environment definition type
 type Environment struct {
 	AuthenticationProvider authentication.Provider
-	Port string
-	PrivateKey string
-	PublicKey string
-	Repository repository.InterviewRepository
-	Type string
-	WebPath string
+	LogPath                string
+	Port                   string
+	PrivateKey             string
+	PublicKey              string
+	Repository             repository.InterviewRepository
+	Type                   string
+	WebPath                string
 }
 
-func NewEnvironment(config []byte) (*Environment) {
+// NewEnvironment creats a new instance of an environment
+func NewEnvironment(config []byte) *Environment {
 
 	var i map[string]interface{}
 	json.Unmarshal(config, &i)
@@ -26,16 +30,18 @@ func NewEnvironment(config []byte) (*Environment) {
 	var signingKey []byte
 	var e error
 	if signingKey, e = ioutil.ReadFile(i["publicKey"].(string)); e != nil {
+		log.Panicf("error getting public key %s", e)
 		panic(e)
 	}
 
-	return &Environment {
+	return &Environment{
 		AuthenticationProvider: authentication.NewAuthenticationProvder(i["authProvider"].(string), signingKey),
-		Port: i["port"].(string),
-		PrivateKey: i["privateKey"].(string),
-		PublicKey: i["publicKey"].(string),
-		Repository: repository.NewRepository(i["repository"].(string)),
-		Type: i["type"].(string),
-		WebPath: i["webpath"].(string),
+		LogPath:                i["logPath"].(string),
+		Port:                   i["port"].(string),
+		PrivateKey:             i["privateKey"].(string),
+		PublicKey:              i["publicKey"].(string),
+		Repository:             repository.NewRepository(i["repository"].(string)),
+		Type:                   i["type"].(string),
+		WebPath:                i["webpath"].(string),
 	}
 }

@@ -14,8 +14,9 @@ import (
 
 	"github.com/jjosephy/interview/contract/v1"
 	"github.com/jjosephy/interview/httperror"
+	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/jjosephy/interview/util"
 )
 
 type MockInterviewRepository struct {
@@ -38,16 +39,21 @@ func (r *MockInterviewRepository) GetInterview(id string, name string) (model.In
 		model.CommentModel{Content: "db Content", Interviewer: "interviewer 2"},
 	}
 
+	uuid, e := util.InstanceUtil.NewUUID()
+	if e != nil {
+		logger.LogInstance.LogMsg(
+			fmt.Sprintf("Error creating uuid in method handler_test.GetInterview %s", e))
+	}
+
 	// Get a model and translate that
 	m = model.InterviewModel{
 		Candidate: "Candidate",
-		ID:        bson.NewObjectId(),
+		ID:        uuid,
 		Comments:  comments,
 	}
 
 	return m, nil
 }
-
 
 // SimpleAuthProvider used for testing
 type TestAuthProvider struct {
@@ -77,7 +83,7 @@ func ValidateC1(t *testing.T, c contract.InterviewContractV1) {
 }
 
 func TestMain(m *testing.M) {
-	h = InterviewHandler(new(MockInterviewRepository), new (TestAuthProvider))
+	h = InterviewHandler(new(MockInterviewRepository), new(TestAuthProvider))
 	ts = httptest.NewServer(http.HandlerFunc(h))
 	defer ts.Close()
 	os.Exit(m.Run())
@@ -185,68 +191,68 @@ func validateRequest(
 
 func Test_BadRequest_UnSupportedVersion_V1(t *testing.T) {
 	headers := map[string]string{
-		"Api-Version": "3.1",
-		"Authorization" : "TOKEN",
+		"Api-Version":   "3.1",
+		"Authorization": "TOKEN",
 	}
 
 	validateRequest(
 		t,
 		fmt.Sprint(ts.URL, "?id=2"),
 		headers,
-		httperror.BADREQUEST_UNSUPPORTEDVERSION,
-		httperror.MSG_UNSUPPORTED_VERSION,
+		httperror.BadRequestUnSupportedVersion,
+		httperror.MsgUnsupportedVersion,
 		http.StatusBadRequest)
 }
 
 func TestBadRequest_NoQueryParameters_V1(t *testing.T) {
 	headers := map[string]string{
-		"Api-Version": "1.0",
-		"Authorization" : "TOKEN",
+		"Api-Version":   "1.0",
+		"Authorization": "TOKEN",
 	}
 
 	validateRequest(
 		t,
 		ts.URL,
 		headers,
-		httperror.BADREQUEST_NOINPUTPARAMETERS,
-		httperror.MSG_NO_PARAMETERS_PROVIDED,
+		httperror.BadRequestNoInputParameters,
+		httperror.MsgNoParametersProvided,
 		http.StatusBadRequest)
 }
 
 func TestBadRequest_InvalidVersion_V1(t *testing.T) {
 	headers := map[string]string{
-		"Api-Version": "invalid",
-		"Authorization" : "TOKEN",
+		"Api-Version":   "invalid",
+		"Authorization": "TOKEN",
 	}
 
 	validateRequest(
 		t,
 		ts.URL,
 		headers,
-		httperror.BADREQUEST_INVALIDVERSION,
-		httperror.MSG_INVALID_VERSION,
+		httperror.BadRequestInvalidVersion,
+		httperror.MsgInvalidVersion,
 		http.StatusBadRequest)
 }
 
 func TestBadRequest_NoVersion_V1(t *testing.T) {
 	headers := map[string]string{
-		"No-Version": "",
-		"Authorization" : "TOKEN",
+		"No-Version":    "",
+		"Authorization": "TOKEN",
 	}
 
 	validateRequest(
 		t,
 		ts.URL,
 		headers,
-		httperror.BADREQUEST_NOVERSION,
-		httperror.MSG_NO_VERSION_PROVIDED,
+		httperror.BadRequestNoVersion,
+		httperror.MsgNoVersionProvided,
 		http.StatusBadRequest)
 }
 
 func Test_Success_ValidRequest_V1(t *testing.T) {
 	headers := map[string]string{
-		"Api-Version": "1.0",
-		"Authorization" : "TOKEN",
+		"Api-Version":   "1.0",
+		"Authorization": "TOKEN",
 	}
 
 	validateRequest(
