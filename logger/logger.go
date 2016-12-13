@@ -21,6 +21,7 @@ func NewLogger() {
 	f, err := os.OpenFile("logs/interview.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		fmt.Printf("error opening file: %v", err)
+		defer f.Close()
 	}
 	log.SetOutput(f)
 
@@ -30,10 +31,19 @@ func NewLogger() {
 // LogMsg logs a message
 func (l *Logger) LogMsg(msg string) {
 	t := time.Now()
-	log.Printf("%s | %s", t.UTC().Format(time.UnixDate), msg)
+	log.Printf("%s | INFO | %s", t.UTC().Format(time.UnixDate), msg)
+}
+
+// LogError logs a message
+func (l *Logger) LogError(msg string) {
+	t := time.Now()
+	log.Printf("%s | ERROR | %s", t.UTC().Format(time.UnixDate), msg)
 }
 
 // Close closes the Logger
 func (l *Logger) Close() {
-	l.f.Close()
+	e := l.f.Close()
+	if e != nil {
+		fmt.Printf("Error trying to close file %s\n", e)
+	}
 }

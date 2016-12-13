@@ -37,14 +37,8 @@ func ConvertModelToContractV1(m model.InterviewModel) (c contract.InterviewContr
 		comments[i] = cm
 	}
 
-	uuid, e := util.InstanceUtil.NewUUID()
-	if e != nil {
-		logger.LogInstance.LogMsg(
-			fmt.Sprintf("Error creating uuid in method typeConverter.ConvertModelToContractV1 %s", e))
-	}
-
 	return contract.InterviewContractV1{
-		ID:        uuid,
+		ID:        m.ID,
 		Candidate: m.Candidate,
 		Comments:  comments,
 	}
