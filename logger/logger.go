@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 // Logger main type for logging
@@ -28,7 +29,8 @@ func NewLogger() {
 
 // LogMsg logs a message
 func (l *Logger) LogMsg(msg string) {
-	log.Output(1, msg)
+	t := time.Now()
+	log.Printf("%s | %s", t.UTC().Format(time.UnixDate), msg)
 }
 
 // Close closes the Logger
