@@ -125,7 +125,7 @@ func InvalidInterviewID(w http.ResponseWriter) {
 
 // NoVersionProvided is used when no version header is passed
 func NoVersionProvided(w http.ResponseWriter) {
-	writeBadRequest(w, BadRequestNoRequestBody, MsgNoVersionProvided)
+	writeBadRequest(w, BadRequestNoVersion, MsgNoVersionProvided)
 }
 
 // InvalidVersionProvided is used when an Invalid version is passed

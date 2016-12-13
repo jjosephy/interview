@@ -28,27 +28,15 @@ An+7GCH1hgB2NmNp26cTKn6sGrz1gkJXxxZMj4ocGjRXf6SZ0lK09NrXGYaodimw
 mkUNuhtVPg==
 -----END CERTIFICATE-----`
 
-/*
-func Test_LDAPAuthentication(t *testing.T) {
-    p := LDAPAuthProvider { SigningKey : []byte(pk) }
-    if token, err := p.AuthenticateUser("user", "pwd"); err != nil {
-      t.Errorf("Faild %v", err)
-    } else {
-        t.Log(token)
-    }
-}
-*/
-
 func Test_SimpleAuthentication(t *testing.T) {
 
-	// TODO: figure out injection pattern and config
-	p := SimpleAuthProvider{SigningKey: []byte(pk)}
+	p := NewAuthenticationProvder("SimpleAuthProvider", []byte(pk))
 
 	var token string
 	var err error
 	var valid interface{}
 
-	if token, err = p.AuthenticateUser("user", "pwd"); err == nil {
+	if token, err = p.AuthenticateUser("user", "password"); err == nil {
 		t.Log(token)
 	} else {
 		t.Error("Authentication failed")
