@@ -30,6 +30,7 @@ func main() {
 	mux.Handle("/", http.FileServer(http.Dir(env.WebPath)))
 	mux.HandleFunc("/interview", handler.InterviewHandler(repo, p))
 	mux.HandleFunc("/token", handler.TokenHandler(p))
+	mux.HandleFunc("/user", handler.UserHandler(p))
 	err := http.ListenAndServeTLS(env.Port, env.PublicKey, env.PrivateKey, mux)
 	if err != nil {
 		fmt.Printf("main(): %s\n", err)
