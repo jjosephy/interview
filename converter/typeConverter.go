@@ -69,3 +69,12 @@ func ConvertContractToModelV1(c contract.InterviewContractV1) (m model.Interview
 		Comments:  comments,
 	}
 }
+
+// ConvertCreateUserContractToModelV1 converts a create user contract to a model
+func ConvertCreateUserContractToModelV1(c contract.CreateUserContractV1) *model.CreateUserModel {
+	// TODO make these all pointers
+	return &model.CreateUserModel{
+		UserName: c.UserName,
+		Password: c.Password,
+	}
+}

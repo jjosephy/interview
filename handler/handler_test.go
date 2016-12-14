@@ -22,6 +22,10 @@ import (
 type MockInterviewRepository struct {
 }
 
+func (r *MockInterviewRepository) CreateUser(m *model.CreateUserModel) (string, error) {
+	return "m", nil
+}
+
 func (r *MockInterviewRepository) SaveInterview(m model.InterviewModel) (model.InterviewModel, error) {
 	return m, nil
 }

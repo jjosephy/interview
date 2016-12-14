@@ -14,6 +14,7 @@ import (
 type InterviewRepository interface {
 	GetInterview(id string, name string) (model.InterviewModel, error)
 	SaveInterview(model model.InterviewModel) (model.InterviewModel, error)
+	CreateUser(m *model.CreateUserModel) (string, error)
 }
 
 // DBInterviewRepository Implementation
@@ -46,6 +47,12 @@ func (r *DBInterviewRepository) SaveInterview(m model.InterviewModel) (mi model.
 // GetInterview impl
 func (r *DBInterviewRepository) GetInterview(id string, name string) (m model.InterviewModel, err error) {
 	return *(r.createModel()), nil
+}
+
+// CreateUser Implements the InterviwRepository Interface
+func (r *DBInterviewRepository) CreateUser(m *model.CreateUserModel) (string, error) {
+
+	return "", nil
 }
 
 func (r *DBInterviewRepository) createModel() *model.InterviewModel {

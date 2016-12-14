@@ -43,3 +43,18 @@ func Test_Success_MarshalContractV1(t *testing.T) {
 	str := string(s)
 	t.Log(str)
 }
+
+func Test_Success_MarshalCreateUserContractV1(t *testing.T) {
+	c := &CreateUserContractV1{
+		UserName: "Testuser",
+		Password: "Password",
+	}
+
+	s, err := json.Marshal(c)
+	if err != nil {
+		t.Fatalf("Failed Marshal Create User Contract %v\n", err)
+	}
+
+	str := string(s)
+	t.Log(str)
+}

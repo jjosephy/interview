@@ -15,5 +15,5 @@ curl -i \
 	--header "api-version: 1.0" \
 	--header "authorization: $auth" \
 	-H "Accept: application/json" \
-	-X POST -d '{"candidate":"Bob Jones","comments":[{"content":"db Content","interviewer":"John Day"},{"content":"db Content","interviewer":"Jill Bay"},{"content":"db Content","interviewer":"Ron Haiy"}],"complete":false}' \
-	https://localhost:8443/interview
+	-X POST -d '{"userName":"Testuser","password":"Password"}' \
+	https://localhost:8443/user
