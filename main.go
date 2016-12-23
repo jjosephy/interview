@@ -14,7 +14,8 @@ import (
 func main() {
 	logger.NewLogger()
 	logger.LogInstance.LogMsg("Service Started")
-	defer logger.LogInstance.Close()
+	// TODO: try to find out how to get this called. Doesnt seem to be called on the defer
+	defer logger.LogInstance.Close("Service End Signal Sent")
 
 	// Must have config file present to run
 	config, ex := ioutil.ReadFile("config/env.json")

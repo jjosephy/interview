@@ -1,9 +1,11 @@
 package logger
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"os"
-	"os/exec"
+	"strings"
 	"testing"
 )
 
@@ -12,43 +14,51 @@ const (
 )
 
 func init() {
-	cmd := fmt.Sprintln("[ ! -d logs/ ] && mkdir logs/")
-	out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
-	if err != nil {
-		if len(out) > 0 {
-			fmt.Printf("error trying to create the log %s %s", out, err)
-			os.Exit(1)
+	//make logs directory. check if it already exists.
+	if e := os.Mkdir("logs", os.ModeDir); e != nil {
+		if os.IsExist(e) {
+			fmt.Printf("logs directory already exists\n")
+		} else {
+			fmt.Printf("Error trying to create log directory. : %s\n", e)
 		}
 	}
 }
 
 func cleanup() {
-	cmd := fmt.Sprintln("rm -f -r logs")
-	out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
-	if err != nil {
-		fmt.Printf("error trying to delete log directory %s %s", out, err)
+	// delete the log directory
+	if e := os.RemoveAll("logs"); e != nil {
+		fmt.Printf("error deleting logs directory %s \n", e)
 	}
 }
 
 func Test_BasicLogging(t *testing.T) {
 	NewLogger()
 	LogInstance.LogMsg(fmt.Sprintf("Test Messsage %s", TestToken1))
-
-	/*
-		f, err := os.Open("logs/interview.log")
-		if err != nil {
-			fmt.Printf("error opening file: %v", err)
-		}
-
-		defer f.Close()
-		r := bufio.NewReader(f)
-		line, err := r.ReadString(10)
-		for err != io.EOF {
-			fmt.Print(line)
-			line, err = r.ReadString(10)
-		}
-	*/
-
 	defer cleanup()
-	defer LogInstance.Close()
+	defer LogInstance.Close("--End Test--")
+
+	f, err := os.Open("logs/interview.log")
+	if err != nil {
+		fmt.Printf("error opening file: %v", err)
+	}
+
+	r := bufio.NewReader(f)
+	b := false
+	for err != io.EOF {
+		line, err := r.ReadString(10)
+		if err != nil {
+			break
+		}
+		sp := strings.Split(line, "|")
+		if strings.Contains(sp[2], TestToken1) {
+			b = true
+			break
+		}
+	}
+
+	f.Close()
+
+	if !b {
+		t.Fatalf("Could not parse test message\n")
+	}
 }
