@@ -9,10 +9,9 @@ import (
 	"github.com/jjosephy/interview/repository"
 )
 
-// Environment is the main environment definition type
+// Environment holds all of the environment specific configurations
 type Environment struct {
 	AuthenticationProvider authentication.Provider
-	LogPath                string
 	Port                   string
 	PrivateKey             string
 	PublicKey              string
@@ -21,7 +20,7 @@ type Environment struct {
 	WebPath                string
 }
 
-// NewEnvironment creats a new instance of an environment
+// NewEnvironment create a new Environment Definition
 func NewEnvironment(config []byte) *Environment {
 
 	var i map[string]interface{}
@@ -36,12 +35,11 @@ func NewEnvironment(config []byte) *Environment {
 
 	return &Environment{
 		AuthenticationProvider: authentication.NewAuthenticationProvder(i["authProvider"].(string), signingKey),
-		LogPath:                i["logPath"].(string),
-		Port:                   i["port"].(string),
-		PrivateKey:             i["privateKey"].(string),
-		PublicKey:              i["publicKey"].(string),
-		Repository:             repository.NewRepository(i["repository"].(string)),
-		Type:                   i["type"].(string),
-		WebPath:                i["webpath"].(string),
+		Port:       i["port"].(string),
+		PrivateKey: i["privateKey"].(string),
+		PublicKey:  i["publicKey"].(string),
+		Repository: repository.NewRepository(i["repository"].(string)),
+		Type:       i["type"].(string),
+		WebPath:    i["webpath"].(string),
 	}
 }
