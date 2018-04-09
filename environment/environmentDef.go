@@ -8,17 +8,19 @@ import (
 	"github.com/jjosephy/interview/repository"
 )
 
+// Environment holds all of the environment specific configurations
 type Environment struct {
 	AuthenticationProvider authentication.Provider
-	Port string
-	PrivateKey string
-	PublicKey string
-	Repository repository.InterviewRepository
-	Type string
-	WebPath string
+	Port                   string
+	PrivateKey             string
+	PublicKey              string
+	Repository             repository.InterviewRepository
+	Type                   string
+	WebPath                string
 }
 
-func NewEnvironment(config []byte) (*Environment) {
+// NewEnvironment create a new Environment Definition
+func NewEnvironment(config []byte) *Environment {
 
 	var i map[string]interface{}
 	json.Unmarshal(config, &i)
@@ -29,13 +31,13 @@ func NewEnvironment(config []byte) (*Environment) {
 		panic(e)
 	}
 
-	return &Environment {
+	return &Environment{
 		AuthenticationProvider: authentication.NewAuthenticationProvder(i["authProvider"].(string), signingKey),
-		Port: i["port"].(string),
+		Port:       i["port"].(string),
 		PrivateKey: i["privateKey"].(string),
-		PublicKey: i["publicKey"].(string),
+		PublicKey:  i["publicKey"].(string),
 		Repository: repository.NewRepository(i["repository"].(string)),
-		Type: i["type"].(string),
-		WebPath: i["webpath"].(string),
+		Type:       i["type"].(string),
+		WebPath:    i["webpath"].(string),
 	}
 }

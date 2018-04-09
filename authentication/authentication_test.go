@@ -40,15 +40,13 @@ func Test_LDAPAuthentication(t *testing.T) {
 */
 
 func Test_SimpleAuthentication(t *testing.T) {
-
-	// TODO: figure out injection pattern and config
-	p := SimpleAuthProvider{SigningKey: []byte(pk)}
+	p := NewSimpleAuthProvider([]byte(pk))
 
 	var token string
 	var err error
 	var valid interface{}
 
-	if token, err = p.AuthenticateUser("user", "pwd"); err == nil {
+	if token, err = p.AuthenticateUser("user", "password"); err == nil {
 		t.Log(token)
 	} else {
 		t.Error("Authentication failed")

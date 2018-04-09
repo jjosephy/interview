@@ -6,6 +6,7 @@ type Provider interface {
 	ValidateToken(token string) (bool, error)
 }
 
+// NewAuthenticationProvder simple factory for Provider interfaces
 func NewAuthenticationProvder(s string, key []byte) Provider {
 	if s == "SimpleAuthProvider" {
 		return NewSimpleAuthProvider(key)
