@@ -5,6 +5,7 @@ import (
 
 	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
+	"github.com/jjosephy/interview/util"
 )
 
 // MemoryInterviewRepository Implementation
@@ -20,6 +21,40 @@ func NewMemoryRepository() *MemoryInterviewRepository {
 	r.u = make(map[string]interface{}, 0)
 
 	return r
+}
+
+// CreateUser Implements the InterviwRepository Interface
+func (r *MemoryInterviewRepository) CreateUser(m *model.CreateUserModel) (string, error) {
+	var (
+		err  error
+		uuid string
+	)
+
+	/*
+	   mt, ok := r.m[id].(model.InterviewModel)
+	   		if !ok {
+	   			msg := "interview does not exist by id. repository.GetInterview"
+	   			logger.LogInstance.LogError(msg)
+	   			return mi, errors.New("not found")
+	   		}
+	*/
+
+	//TODO: check for existing User
+	/*
+		for k := range r.u {
+			c := r.u[k].(model.CreateUserModel)
+			if c.UserName == m.UserName {
+				return "", errors.New("User already exists")
+			}
+		}
+	*/
+
+	if uuid, err = util.InstanceUtil.NewUUID(); err != nil {
+		return "", err
+	}
+
+	r.u[uuid] = m
+	return uuid, nil
 }
 
 // SaveInterview saves an interview. Implements the Repository interface.

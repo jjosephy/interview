@@ -1,10 +1,16 @@
 package environment
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"crypto/x509/pkix"
 	"fmt"
+	"io/ioutil"
+	"math/big"
 	"os"
-	"os/exec"
 	"testing"
+	"time"
 )
 
 const j = `{
@@ -12,39 +18,73 @@ const j = `{
     "logPath": "/home/jjosephy/Source/go/bin/logs",
     "port": ":8443",
     "publicKey" : "./cert.pem",
-    "privateKey" : "./private_key",
+    "privateKey" : "./private.key",
     "repository" : "MemoryRepository",
     "type" : "debug",
     "webpath" : "/home/jjosephy/Source/go/src/github.com/jjosephy/interview/web"
 }`
 
-func init() {
+func createCerts() error {
+	// http://golang.org/pkg/crypto/x509/#Certificate
+	// http://golang.org/pkg/crypto/x509/#KeyUsage
 
-	var (
-		cmdOut []byte
-		err    error
-	)
-	cmdName := "openssl"
-	cmdArgs := []string{"genrsa", "-out", "private_key", "2048"}
-	if cmdOut, err = exec.Command(cmdName, cmdArgs...).Output(); err != nil {
-		fmt.Fprintln(os.Stderr, "There was an error running openssl to create private key: ", err, cmdOut)
-		os.Exit(1)
+	template := &x509.Certificate{
+		IsCA: true,
+		BasicConstraintsValid: true,
+		SubjectKeyId:          []byte{1, 2, 3},
+		SerialNumber:          big.NewInt(1234),
+		Subject: pkix.Name{
+			CommonName:   "localhost",
+			Country:      []string{"US"},
+			Locality:     []string{"Seattle"},
+			Organization: []string{"Comp"},
+		},
+		NotBefore:   time.Now(),
+		NotAfter:    time.Now().AddDate(5, 5, 5),
+		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth, x509.ExtKeyUsageServerAuth},
+		KeyUsage:    x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
 	}
 
-	cmd := fmt.Sprintln("openssl req -new -x509 -key private_key -out cert.pem",
-		"-days 365 -subj '/C=US/ST=Washington/L=Seattle/O=Comp/CN=localhost'")
-	out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
+	// generate private key
+	privatekey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		fmt.Printf("error trying to cmd %s %s", out, err)
+		return err
+	}
+
+	publickey := &privatekey.PublicKey
+	var parent = template
+	cert, err := x509.CreateCertificate(rand.Reader, template, parent, publickey, privatekey)
+	if err != nil {
+		return err
+	}
+
+	pkey := x509.MarshalPKCS1PrivateKey(privatekey)
+	if err := ioutil.WriteFile("private.key", pkey, 0777); err != nil {
+		return fmt.Errorf("Error trying to save private key %s", err)
+	}
+
+	if err := ioutil.WriteFile("cert.pem", cert, 0777); err != nil {
+		return fmt.Errorf("Error trying to save cert %s", err)
+	}
+
+	return nil
+}
+
+func init() {
+	if e := createCerts(); e != nil {
+		fmt.Printf("error trying to create certs %s", e)
 		os.Exit(1)
 	}
 }
 
 func clean() {
-	cmd := fmt.Sprintln("rm -f cert.pem private_key")
-	out, err := exec.Command("bash", "-c", cmd).CombinedOutput()
-	if err != nil {
-		fmt.Printf("error trying to clean up certs %s %s", out, err)
+	// remove temp cert files
+	if err := os.Remove("private.key"); err != nil {
+		fmt.Printf("Error removing private key %s", err)
+	}
+
+	if err := os.Remove("cert.pem"); err != nil {
+		fmt.Printf("Error removing cert %s", err)
 	}
 }
 

@@ -24,6 +24,7 @@ type Environment struct {
 func NewEnvironment(config []byte) *Environment {
 
 	var i map[string]interface{}
+	// TODO: check for error or nil map
 	json.Unmarshal(config, &i)
 
 	var signingKey []byte
