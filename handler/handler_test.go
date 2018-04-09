@@ -14,8 +14,9 @@ import (
 
 	"github.com/jjosephy/interview/contract/v1"
 	"github.com/jjosephy/interview/httperror"
+	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/jjosephy/interview/util"
 )
 
 type MockInterviewRepository struct {
@@ -38,10 +39,16 @@ func (r *MockInterviewRepository) GetInterview(id string, name string) (model.In
 		model.CommentModel{Content: "db Content", Interviewer: "interviewer 2"},
 	}
 
+	uuid, e := util.InstanceUtil.NewUUID()
+	if e != nil {
+		logger.LogInstance.LogMsg(
+			fmt.Sprintf("Error creating uuid in method handler_test.GetInterview %s", e))
+	}
+
 	// Get a model and translate that
 	m = model.InterviewModel{
 		Candidate: "Candidate",
-		ID:        bson.NewObjectId(),
+		ID:        uuid,
 		Comments:  comments,
 	}
 

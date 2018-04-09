@@ -2,9 +2,11 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 
-	"gopkg.in/mgo.v2/bson"
+	"github.com/jjosephy/interview/logger"
+	"github.com/jjosephy/interview/util"
 )
 
 func Test_Success_CreateErrorModel(t *testing.T) {
@@ -21,9 +23,15 @@ func Test_Success_CreateErrorModel(t *testing.T) {
 func Test_Success_SerializeCommentModel(t *testing.T) {
 	// Get a model and translate that
 	//TODO: make a helper class to create test models and contracts
+	uuid, e := util.InstanceUtil.NewUUID()
+	if e != nil {
+		logger.LogInstance.LogMsg(
+			fmt.Sprintf("Error creating uuid in method model_test.Test_Success_SerializeCommentModel %s", e))
+	}
+
 	m := InterviewModel{
 		Candidate: "Candidate Name",
-		ID:        bson.NewObjectId(),
+		ID:        uuid,
 		Comments: Comments{
 			CommentModel{Content: "db Content", Interviewer: "interviewer 0"},
 			CommentModel{Content: "db Content", Interviewer: "interviewer 1"},

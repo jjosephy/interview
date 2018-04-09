@@ -7,10 +7,14 @@ import (
 
 	"github.com/jjosephy/interview/environment"
 	"github.com/jjosephy/interview/handler"
+	"github.com/jjosephy/interview/logger"
 )
 
 // Main entry point used to set up routes
 func main() {
+	logger.NewLogger()
+	logger.LogInstance.LogMsg("Service Started")
+	defer logger.LogInstance.Close()
 
 	// Must have config file present to run
 	config, ex := ioutil.ReadFile("config/env.json")

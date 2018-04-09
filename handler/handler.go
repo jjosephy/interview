@@ -8,6 +8,7 @@ import (
 	"github.com/jjosephy/interview/authentication"
 	"github.com/jjosephy/interview/converter"
 	"github.com/jjosephy/interview/httperror"
+	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
 	"github.com/jjosephy/interview/repository"
 )
@@ -16,6 +17,8 @@ import (
 func InterviewHandler(data repository.InterviewRepository, p authentication.Provider) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var version float64
+
+		logger.LogInstance.LogMsg("Interview Handler called")
 
 		// Validate Authorization Header
 		h := r.Header.Get("authorization")

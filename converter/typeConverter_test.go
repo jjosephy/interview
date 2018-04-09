@@ -3,12 +3,14 @@ package converter
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"testing"
 
 	"github.com/jjosephy/interview/contract/v1"
+	"github.com/jjosephy/interview/logger"
 	"github.com/jjosephy/interview/model"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/jjosephy/interview/util"
 )
 
 type nopCloser struct {
@@ -20,9 +22,15 @@ func (nopCloser) Close() error {
 }
 
 func CreateTestModel() model.InterviewModel {
+	uuid, e := util.InstanceUtil.NewUUID()
+	if e != nil {
+		logger.LogInstance.LogMsg(
+			fmt.Sprintf("Error creating uuid in method typeConverter_test.CreateTestModel %s", e))
+	}
+
 	return model.InterviewModel{
 		Candidate: "Candidate Name",
-		ID:        bson.NewObjectId(),
+		ID:        uuid,
 		Comments: model.Comments{
 			model.CommentModel{Content: "db Content", Interviewer: "interviewer 0"},
 			model.CommentModel{Content: "db Content", Interviewer: "interviewer 1"},

@@ -3,6 +3,7 @@ package environment
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 
 	"github.com/jjosephy/interview/authentication"
 	"github.com/jjosephy/interview/repository"
@@ -28,6 +29,7 @@ func NewEnvironment(config []byte) *Environment {
 	var signingKey []byte
 	var e error
 	if signingKey, e = ioutil.ReadFile(i["publicKey"].(string)); e != nil {
+		log.Panicf("error getting public key %s", e)
 		panic(e)
 	}
 

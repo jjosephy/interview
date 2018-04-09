@@ -12,9 +12,5 @@ func NewAuthenticationProvder(s string, key []byte) Provider {
 		return NewSimpleAuthProvider(key)
 	}
 
-	if s == "LDAPAuthProvider" {
-		return NewLdapAuthProvider(key)
-	}
-
 	return nil
 }
